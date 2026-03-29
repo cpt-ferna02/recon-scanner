@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recon Report — scanme.nmap.org</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10; --surface: #111318; --border: #1e2230;
+    --accent: #00e5ff; --accent2: #7b61ff;
+    --text: #c9d1e0; --muted: #4a5068;
+    --red: #ff2d55; --orange: #ff6b35;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 300; }
+  header { background: #0d1117; border-bottom: 1px solid var(--border); padding: 40px 48px; }
+  h1 { font-size: 32px; font-weight: 700; color: #fff; margin-top: 16px; }
+  h1 span { color: var(--accent); }
+  .target-ip { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+  .stat { flex: 1; min-width: 120px; background: var(--surface); padding: 20px 28px; }
+  .stat-val { font-size: 32px; font-weight: 700; font-family: 'Share Tech Mono', monospace; color: var(--accent); }
+  .stat-val.red { color: var(--red); }
+  .stat-val.orange { color: var(--orange); }
+  .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  main { max-width: 1280px; margin: 0 auto; padding: 40px 32px; display: flex; flex-direction: column; gap: 40px; }
+  .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .table-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th { background: #0d1117; color: var(--muted); text-transform: uppercase; font-size: 10px; letter-spacing: .12em; padding: 12px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,.025); }
+  td { padding: 14px 18px; vertical-align: top; }
+  .empty { text-align: center; color: var(--muted); padding: 32px; font-style: italic; }
+  .dim { color: var(--muted); }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; }
+  .ip { color: #7dd3fc; }
+  .port-num { color: var(--accent); font-size: 14px; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 11px; font-weight: 600; color: #000; }
+  .badge-blue { background: var(--accent); }
+  .badge-purple { background: var(--accent2); color: #fff; }
+  .tactic { font-size: 11px; background: rgba(123,97,255,.18); color: var(--accent2); padding: 2px 8px; border-radius: 4px; }
+  .svc-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; background: rgba(0,229,255,.08); color: var(--accent); font-size: 12px; font-weight: 600; }
+  .risk-warn { background: rgba(255,107,53,.12); color: var(--orange); }
+  .cve-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .cve-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+  .cve-id { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #fff; margin-right: 6px; }
+  .cvss { font-size: 11px; color: var(--muted); margin-left: 6px; }
+  .cve-desc { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  footer { border-top: 1px solid var(--border); padding: 24px 32px; font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Recon Scanner v1.0</div>
+  <h1>Target: <span>scanme.nmap.org</span></h1>
+  <div class="target-ip">Resolved IP → 45.33.32.156 &nbsp;|&nbsp; 2026-03-29 02:41:56</div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-val">0</div><div class="stat-label">Subdomains Found</div></div>
+  <div class="stat"><div class="stat-val">2</div><div class="stat-label">Open Ports</div></div>
+  <div class="stat"><div class="stat-val orange">0</div><div class="stat-label">High-Risk Services</div></div>
+  <div class="stat"><div class="stat-val">6</div><div class="stat-label">CVEs Found</div></div>
+  <div class="stat"><div class="stat-val red">6</div><div class="stat-label">Critical / High CVEs</div></div>
+</div>
+
+<main>
+  <section>
+    <div class="section-title">Subdomain Enumeration — T1596.001</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Subdomain</th><th>Resolved IP</th><th>MITRE ID</th></tr></thead>
+        <tbody><tr><td colspan="3" class="empty">No subdomains discovered</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Open Ports, Services & CVEs — T1046 / T1595.002</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Port</th><th>Service</th><th>Banner</th><th>CVEs</th></tr></thead>
+        <tbody>
+        <tr>
+          <td><span class="mono port-num">22</span></td>
+          <td><span class="svc-tag ">SSH</span> </td>
+          <td><span class="mono dim">SSH-2.0-OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.13
+Protocol mismatch.</span></td>
+          <td>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2003-0693</span>
+              <span class="badge" style="background:#ff6b35">HIGH</span>
+              <span class="cvss">CVSS 10.0</span>
+              <p class="cve-desc">A "buffer management error" in buffer_append_space of buffer.c for OpenSSH before 3.7 may allow remote attackers to execute arbitrary code by causing an incorre</p>
+            </div>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2003-0695</span>
+              <span class="badge" style="background:#ff6b35">HIGH</span>
+              <span class="cvss">CVSS 7.5</span>
+              <p class="cve-desc">Multiple "buffer management errors" in OpenSSH before 3.7.1 may allow attackers to cause a denial of service or execute arbitrary code using (1) buffer_init in </p>
+            </div>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2003-1562</span>
+              <span class="badge" style="background:#ff6b35">HIGH</span>
+              <span class="cvss">CVSS 7.6</span>
+              <p class="cve-desc">sshd in OpenSSH 3.6.1p2 and earlier, when PermitRootLogin is disabled and using PAM keyboard-interactive authentication, does not insert a delay after a root lo</p>
+            </div></td>
+        </tr>
+        <tr>
+          <td><span class="mono port-num">80</span></td>
+          <td><span class="svc-tag ">HTTP</span> </td>
+          <td><span class="mono dim">HTTP/1.1 200 OK
+Date: Sun, 29 Mar 2026 07:41:58 GMT
+Server: Apache/2.4.7 (Ubun</span></td>
+          <td>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2022-31125</span>
+              <span class="badge" style="background:#ff2d55">CRITICAL</span>
+              <span class="cvss">CVSS 10.0</span>
+              <p class="cve-desc">Roxy-wi is an open source web interface for managing Haproxy, Nginx, Apache and Keepalived servers. A vulnerability in Roxy-wi allows a remote, unauthenticated </p>
+            </div>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2022-31126</span>
+              <span class="badge" style="background:#ff2d55">CRITICAL</span>
+              <span class="cvss">CVSS 10.0</span>
+              <p class="cve-desc">Roxy-wi is an open source web interface for managing Haproxy, Nginx, Apache and Keepalived servers. A vulnerability in Roxy-wi allows a remote, unauthenticated </p>
+            </div>
+            <div class="cve-item">
+              <span class="cve-id">CVE-2022-31137</span>
+              <span class="badge" style="background:#ff2d55">CRITICAL</span>
+              <span class="cvss">CVSS 10.0</span>
+              <p class="cve-desc">Roxy-WI is a web interface for managing Haproxy, Nginx, Apache and Keepalived servers. Versions prior to 6.1.1.0 are subject to a remote code execution vulnerab</p>
+            </div></td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">MITRE ATT&CK Techniques</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Technique ID</th><th>Name</th><th>Tactic</th></tr></thead>
+        <tbody>
+        <tr>
+          <td><span class="badge badge-purple">T1596.001</span></td>
+          <td>DNS Passive Reconnaissance</td>
+          <td><span class="tactic">Reconnaissance</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">T1046</span></td>
+          <td>Network Service Discovery</td>
+          <td><span class="tactic">Discovery</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">T1592.002</span></td>
+          <td>Gather Host Information/Software</td>
+          <td><span class="tactic">Reconnaissance</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">T1595.002</span></td>
+          <td>Vulnerability Scanning</td>
+          <td><span class="tactic">Reconnaissance</span></td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>Generated by recon-scanner &nbsp;|&nbsp; MITRE ATT&CK® · NVD CVE Data · crt.sh</footer>
+</body>
+</html>
